@@ -14,7 +14,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -25,7 +26,7 @@ SECRET_KEY = 'cxcy1px$kzh6kjk6n5x(+hj2f5%1#$$c167m_aniq5*oruf*1z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com' ]
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', 'localhost' ]
 
 
 # Application definition
@@ -38,6 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'dynamic_scraper',
+]
+
+AUTHENTICATION_BACKENDS = [
+    # 'social_core.backends.google.GoogleOAuth2', # Google
+    # 'social_core.backends.facebook.FacebookOAuth2', # Facebook
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 MIDDLEWARE = [
