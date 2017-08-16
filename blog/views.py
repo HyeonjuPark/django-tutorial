@@ -4,6 +4,9 @@ from .models import Post
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 
+from scrapy.crawler import CrawlerRunner
+from scrapy.utils.project import get_project_settings
+
 # Create your views here.
 def post_list(request):
     posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('created_date')
@@ -18,10 +21,13 @@ def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
+            process = CrawlerRunner(get_project_settings())
+            process.crawl('post_spider')
+            process.start()
+            # post = form.save(commit=False)
+            # post.author = request.user
+            # post.published_date = timezone.now()
+            # post.save()
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
